@@ -25,8 +25,8 @@ DATABASE = "./data.sqlite3"
 
 
 
-poll_data = ['reading','nsfw','nsfw_gifs']
-filename = 'data.txt'
+poll_data = ['reading','philosophy','askphilosophy']
+
 
 def connect_db():
     return sqlite3.connect(DATABASE)
@@ -59,27 +59,35 @@ def query_db(query, args=(), one=False):
 
 
 @app.route('/')
-def root():
-    return render_template('poll.html', data=poll_data[0],id=0)
+def root(roll):
+    return render_template('poll.html', data=poll_data[0], id=0, roll=roll)
 
-@app.route('/adduser/<string:roll>/<string:name>')
-def adduser(name,roll):
-    res=query_db("insert into user values(?,?)",[roll,name])
+@app.route('/user')
+def login():
+    return render_template('user.html', data=poll_data[0], id=0)
+
+
+@app.route('/adduser', methods = ['POST','GET'] )
+def adduser():
+    name, roll = request.form['name'],request.form['roll']
+    print name, roll
+    res = query_db("insert into user values(?,?)",[roll,name])
     if res is None:
-        return 'sorry'
+        return 'failed'
     else:
-        print res
-        return 'success'
+        return root(roll)
 
 @app.route('/poll/<int:id>')
 def poll(id):
     vote = request.args.get('field')
+    roll = request.args.get('roll')
+    subreddit = request.args.get('subreddit')
 
-    out = open(filename, 'a')
-    out.write( vote + '\n' )
-    out.close()
+    query_db("insert into survey values(?,?,?)",[roll,subreddit,vote])
+
+    
     if id+1 >= len(poll_data):
-        return "Great scott"
+        return render_template('thankyou.html')
     else:
         return render_template('poll.html', data=poll_data[id+1],id=id+1)
 
