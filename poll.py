@@ -35,19 +35,28 @@ DEFAULT_PARAMS = {
     }
 }
 
-poll_data = []
+poll_data = {}
 
+TOTAL_BUCKETS = 0
 
 with open(SUBREDDIT_FILE) as obj:
     lines = obj.readlines()
+
+    TOTAL_BUCKETS = len(lines)/10 + 1
+
+    for i in range(TOTAL_BUCKETS):
+        poll_data[i] = []
+
+    index = 0
     for line in lines:
         if len(line) == 1:
             continue
         else:
             subreddit = line.split(' ')[0].split('/')[-1]
-            poll_data.append(subreddit)
+            poll_data[index/10].append(subreddit)
+            index += 1
 
-
+prev_poll_no = -1
 
 def connect_db():
     return sqlite3.connect(DATABASE)
@@ -103,6 +112,7 @@ def login():
 
 @app.route('/adduser', methods = ['POST','GET'] )
 def adduser():
+    global prev_poll_no
     name, roll = request.form['name'],request.form['roll']
     print name, roll
     res = query_db("insert into user values(?,?)",[roll,name])
@@ -110,9 +120,11 @@ def adduser():
         return 'failed'
     else:
         params=dict(DEFAULT_PARAMS)
+        prev_poll_no = (prev_poll_no+1)%TOTAL_BUCKETS
         params.update({
-            "roll" : roll,
-            "data" : poll_data[0],
+            "roll": roll,
+            "data": poll_data[prev_poll_no][0],
+            "poll_no": prev_poll_no ,
             "id"   : 0
             })
         return render_template('poll.html.jinja2',**params)
@@ -125,6 +137,7 @@ def poll(id):
 
     params=dict(DEFAULT_PARAMS)
     
+    poll_no = int(request.args.get('poll_no'))
     vote = request.args.get('field')
     roll = request.args.get('roll')
     subreddit = request.args.get('subreddit')
@@ -132,12 +145,13 @@ def poll(id):
     query_db("insert into survey values(?,?,?)",[roll,subreddit,vote])
 
     
-    if id+1 >= len(poll_data):
+    if id+1 >= len(poll_data[poll_no]):
         return render_template('finish.html.jinja2',**params)
     else:
         params.update({
+            "poll_no" : poll_no,
             "roll" : roll,
-            "data" : poll_data[id+1],
+            "data" : poll_data[poll_no][id+1],
             "id"   : id+1
             })
         return render_template('poll.html.jinja2', **params)
