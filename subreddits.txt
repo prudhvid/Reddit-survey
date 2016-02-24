@@ -17,8 +17,6 @@ http://reddit.com/r/c25k 2
 http://reddit.com/r/redditgetsdrawn 1
 http://reddit.com/r/trucks 2
 
-
-
 http://reddit.com/r/selfimprovement 4
 http://reddit.com/r/perth 3
 http://reddit.com/r/lolwallpaper 1
@@ -39,8 +37,6 @@ http://reddit.com/r/flightsim 2
 http://reddit.com/r/glocks 2
 http://reddit.com/r/boardwalkempire 4
 
-
-
 http://reddit.com/r/drumstep 2
 http://reddit.com/r/90strees 1
 http://reddit.com/r/ghosts 1
@@ -59,8 +55,6 @@ http://reddit.com/r/colombia 4
 http://reddit.com/r/loseit_classic 2
 http://reddit.com/r/roblox 3
 
-
-
 http://reddit.com/r/90salternative 1
 http://reddit.com/r/nebraska 3
 http://reddit.com/r/ineedaname 7
@@ -78,8 +72,6 @@ http://reddit.com/r/dcjobs 1
 http://reddit.com/r/tinnitus 6
 http://reddit.com/r/santarosa 7
 http://reddit.com/r/carletonu 5
-
-
 
 http://reddit.com/r/southampton 4
 http://reddit.com/r/getmellow 1
@@ -100,8 +92,6 @@ http://reddit.com/r/sketchpad 1
 http://reddit.com/r/roll20lfg 1
 http://reddit.com/r/stateoftheunion 2
 
-
-
 http://reddit.com/r/aprilfools 1
 http://reddit.com/r/pasadena 5
 http://reddit.com/r/judgemyaccent ?
@@ -120,8 +110,6 @@ http://reddit.com/r/whistler 5
 http://reddit.com/r/dell 7
 http://reddit.com/r/santafe 5
 http://reddit.com/r/christcore 3
-
-
 
 http://reddit.com/r/vintagecomputing 2
 http://reddit.com/r/hextcg 3
@@ -142,8 +130,6 @@ http://reddit.com/r/drugwar 2
 http://reddit.com/r/wawa 6
 http://reddit.com/r/conceptart 6
 
-
-
 http://reddit.com/r/premiere 3
 http://reddit.com/r/motorcyclememes 1
 http://reddit.com/r/cardiology 3
@@ -161,8 +147,6 @@ http://reddit.com/r/eredivisie 1
 http://reddit.com/r/cookmesomething 7
 http://reddit.com/r/mylittledamon 1
 http://reddit.com/r/bitchaboutskrillex 1
-
-
 
 http://reddit.com/r/shrek 2
 http://reddit.com/r/explainlikeimwhite 7
@@ -183,8 +167,6 @@ http://reddit.com/r/volvorwd 6
 http://reddit.com/r/minecraftbugs 1
 http://reddit.com/r/talk 1
 
-
-
 http://reddit.com/r/awip 1
 http://reddit.com/r/death_metal 1
 http://reddit.com/r/achewood 6
@@ -200,6 +182,3 @@ http://reddit.com/r/wls 2
 http://reddit.com/r/lolskinconcepts 1
 http://reddit.com/r/organization 4
 http://reddit.com/r/mlprequests 7
-
-
-

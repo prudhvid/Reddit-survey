@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_from_directory
 import os
 import sqlite3
-from flask import g
-app = Flask(__name__)
+from flask import g,url_for
+
 from contextlib import closing
 
+app = Flask(__name__,static_url_path="")
 
 # poll_data = {
 #    'question' : 'Which web framework do you use?',
@@ -23,9 +24,29 @@ from contextlib import closing
 
 DATABASE = "./data.sqlite3"
 
+SUBREDDIT_FILE = "./subreddits.txt"
+
+DEFAULT_PARAMS = {
+    "survey": {
+        "title": "Categorizing Reddit Subreddits",
+        "description": (
+            "Survey on categorizing post-based/comment-based subreddits"
+            "in Reddit."),
+    }
+}
+
+poll_data = []
 
 
-poll_data = ['reading','philosophy','askphilosophy']
+with open(SUBREDDIT_FILE) as obj:
+    lines = obj.readlines()
+    for line in lines:
+        if len(line) == 1:
+            continue
+        else:
+            subreddit = line.split(' ')[0].split('/')[-1]
+            poll_data.append(subreddit)
+
 
 
 def connect_db():
@@ -55,16 +76,29 @@ def query_db(query, args=(), one=False):
 
 
 
+@app.route('/components/<path:path>')
+def send_js(path):
+    return send_from_directory('bower_components', path)
 
+@app.route('/css/<path:path>')
+def send_css(path):
+    return send_from_directory('css', path)
 
 
 @app.route('/')
-def root(roll):
-    return render_template('poll.html', data=poll_data[0], id=0, roll=roll)
+def root():
+    # return render_template('instructions.html.jinja2', data=poll_data[0], id=0, roll=roll)
+    params=dict(DEFAULT_PARAMS)
+    params.update({
+        "next_page": url_for("login")
+    })
+    
+    return render_template('instructions.html.jinja2',**params)
 
 @app.route('/user')
 def login():
-    return render_template('user.html', data=poll_data[0], id=0)
+    params=dict(DEFAULT_PARAMS)
+    return render_template('user.html.jinja2', data=poll_data[0], id=0,**params)
 
 
 @app.route('/adduser', methods = ['POST','GET'] )
@@ -75,10 +109,22 @@ def adduser():
     if res is None:
         return 'failed'
     else:
-        return root(roll)
+        params=dict(DEFAULT_PARAMS)
+        params.update({
+            "roll" : roll,
+            "data" : poll_data[0],
+            "id"   : 0
+            })
+        return render_template('poll.html.jinja2',**params)
+
+
+
 
 @app.route('/poll/<int:id>')
 def poll(id):
+
+    params=dict(DEFAULT_PARAMS)
+    
     vote = request.args.get('field')
     roll = request.args.get('roll')
     subreddit = request.args.get('subreddit')
@@ -87,9 +133,14 @@ def poll(id):
 
     
     if id+1 >= len(poll_data):
-        return render_template('thankyou.html')
+        return render_template('finish.html.jinja2',**params)
     else:
-        return render_template('poll.html', data=poll_data[id+1],id=id+1)
+        params.update({
+            "roll" : roll,
+            "data" : poll_data[id+1],
+            "id"   : id+1
+            })
+        return render_template('poll.html.jinja2', **params)
 
 @app.route('/results')
 def show_results():

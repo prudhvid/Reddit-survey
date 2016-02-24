@@ -1,0 +1,23 @@
+{% extends "base.html.jinja2" %}
+
+{% block body %}
+
+	<h1 id="header" class="text-center">{{ survey.title }}</h1>
+	<div class="container">
+		<h3>Please fill your details before proceeding</h3>	
+		<form role="form" action="/adduser" method="post">
+			<div class="form-group "
+			 	<label for="name">Full Name:</label>
+				<input type="text" name="name" class="form-control" id="name" placeholder="Enter name">
+			</div>
+			<div class="form-group ">
+				<label for="roll">Roll Number:</label>
+				<input type="text" name="roll" class="form-control" id="roll" placeholder="Enter roll">
+			</div>
+
+			<button type="submit" class="btn btn-info" >Submit</button>
+			
+		</form>
+	</div>
+
+{% endblock %}

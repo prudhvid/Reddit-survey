@@ -1,0 +1,12 @@
+{
+    "name": "Reddit-survey",
+    "dependencies": {
+        "jquery": "*",
+        "bootstrap": "*",
+        "flask": "*"
+        
+    },
+    "proxy": "http://10.3.100.207:8080",
+  	"https-proxy":"https://10.3.100.207:8080",
+  	"strict-ssl": false
+}

@@ -1,0 +1,47 @@
+{% extends "base.html.jinja2" %}
+
+{% block body %}
+
+<div class="container">
+
+    <h1 id="header" class="text-center">{{ survey.title }}</h1>
+
+    <h2>Welcome</h2>
+
+    <p>Dear {{ participant }}</p>
+
+    <p>This survey is designed to analyze different types of subreddits.
+    For the purposes of this survey,
+    <strong>we call a subreddit post-based,
+    if we think that the value of the subreddit comes from it's posts and the comments genrally have no value except for some random discussion.</strong></p>
+
+    <p>In this survey,
+    we will show you {{ npages }} subreddits,
+    one at a time.
+    For every subreddit,
+    you will have to answer,
+    how much of a post based or comment based it is.
+    </p>
+
+    <!--
+    <p>Tweets are very small
+    and often contain colloquial abbreviations
+    as well as references to external entities.
+    For your ease,
+    you may also be shown an annotated version of the tweet,
+    where some of these of abbreviations have been expanded.
+    Additionally you may be shown notes refereeing to the
+    entities present in the tweet.</p>
+    -->
+
+    <br>
+    <div class="text-right">
+        <a href="{{ next_page }}">
+            <button class="btn btn-primary" type="button">
+                Click here to start the survey
+            </button>
+        </a>
+    </div>
+</div>
+
+{% endblock %}
