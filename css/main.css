@@ -6,7 +6,16 @@ div.container {
   margin-right: auto;
   color: #0a0a0a;
   padding: 0 1.5em;
-  max-width: 700px; }
+  max-width: 900px;
+  line-height: 2; }
+
+div.container2 {
+  margin-left: auto;
+  margin-right: auto;
+  color: #0a0a0a;
+  padding: 0 1.5em;
+  max-width: 700px;
+  line-height: 2; }
 
 h1 {
   margin-bottom: 2em; }

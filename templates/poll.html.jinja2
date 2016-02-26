@@ -5,33 +5,54 @@
 <div class="container">
 	<h1 id="header" class="text-center">{{ survey.title }}</h1>
 
-	<h3> Subreddit: r/{{ data }} </h3>
-	<a href="http://reddit.com/r/{{data}}" target="_blank"> Click here to see the subreddit </a>
-	<div class="form-group">
-		<form action="/poll/{{id}}" >
-			<input class="form-control sr-only" type="text" name="roll" value="{{roll}}" />
-			<input class="form-control sr-only" type="text" name="subreddit" value="{{data}}" />
-			<input class="form-control sr-only" type="text" name="poll_no" value="{{poll_no}}" />
+	<div class="container2">
+		<div class="progress" style="height:3px">
+				  <div class="progress-bar progress-bar-success" role="progressbar"
+				  aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100" style="width:{{percent}}%;">
+				    <!-- <small>{{percent|round|int}}% done</small> -->
+				  </div>
+				</div>	
+		<h3>For the subreddit 
+		<a href="http://reddit.com/r/{{data}}" target="_blank"> r/{{data}}</a>, what is the main source of its value, posts or comments to posts? </h3>
+
+		<br>
+
+		<div class="form-group">
+			<form action="/poll/{{id}}" >
+				<input class="form-control sr-only" type="text" name="c" value="{{c}}" />
+				<input class="form-control sr-only" type="text" name="subreddit" value="{{data}}" />
 
 
-				{% for e in range(1,8) %}	
-					<label class="radio-inline col-sm-1 text-center">
-						<input type="radio" name="field" value="{{ e }}" checked="true"> {{ e }}
-					</label>
-				{% endfor %}
-			<br>
+					{% for e in range(1,8) %}	
+						<label class="radio-inline text-center"
+							style="width:80px;">
+							<input type="radio" name="field" value="{{ e }}" checked="true"> {{e}}
+						</label>
+					{% endfor %}
+				<br>
 
-			<div class="row">
-				<div class="col-sm-2 "> <code> Post Based </code> </div>
-				<div class="col-sm-4"> </div>
-				<div class="col-sm-4 text-center" > <code> Comment Based </code> </div>
-			</div>
+				<div class="row">
+					<div class="text-center col-sm-2" style="float:left;"> <code> Posts</code> </div>
+					<!-- <div class="col-sm-20"> </div> -->
+					<div  style="float:right;" > <code> Comments to posts </code> </div>
+				</div>
 
-			<br>
-			<!-- <button type="button" class="btn btn-primary">Next</button> -->
-			<input type="submit" class="btn btn-info col-sm-pull-4"  value="Next">
-			<!-- <input type="submit" value="Vote" /> -->
-		</form>
+				<br>
+				<!-- <button type="button" class="btn btn-primary">Next</button> -->
+
+				<h4>Please visit <a href="https://reddit.com/r/{{data}}" target="_blank"> reddit.com/r/{{data}} </a> to checkout the subreddit </h4>
+
+				
+					<!-- <h3>  <span class="badge" >{{nmore}} more to go </span> </h3> -->
+					<!-- <h4><span class="label label-success">{{nmore}} more to go</span></h4> -->
+
+				
+
+				<input type="submit" class="btn btn-primary pull-right"  value="Submit">
+					<!-- <input type="submit" value="Vote" /> -->
+				<!-- </div> -->
+			</form>
+		</div>
 	</div>
 </div>
 

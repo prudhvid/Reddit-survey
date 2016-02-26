@@ -1,9 +1,10 @@
+import flask
 from flask import Flask, render_template, request, send_from_directory
 import os
 import sqlite3
 from flask import g,url_for
-
 from contextlib import closing
+import json
 
 app = Flask(__name__,static_url_path="")
 
@@ -26,37 +27,38 @@ DATABASE = "./data.sqlite3"
 
 SUBREDDIT_FILE = "./subreddits.txt"
 
+JSONFILE = './user-reddit.json'
+
 DEFAULT_PARAMS = {
     "survey": {
-        "title": "Categorizing Reddit Subreddits",
+        "title": "Identifying sources of value for subreddits",
         "description": (
             "Survey on categorizing post-based/comment-based subreddits"
             "in Reddit."),
     }
 }
 
-poll_data = {}
 
-TOTAL_BUCKETS = 0
+
+
 
 with open(SUBREDDIT_FILE) as obj:
-    lines = obj.readlines()
-
-    TOTAL_BUCKETS = len(lines)/10 + 1
-
-    for i in range(TOTAL_BUCKETS):
-        poll_data[i] = []
-
-    index = 0
-    for line in lines:
+    lines = []
+    for line in obj.readlines():
         if len(line) == 1:
             continue
         else:
-            subreddit = line.split(' ')[0].split('/')[-1]
-            poll_data[index/10].append(subreddit)
-            index += 1
+            line = line.split(' ')[0].split('/')[-1]
+            lines.append(line)
 
-prev_poll_no = -1
+
+
+def readJson():
+    global key_data
+    with open(JSONFILE) as jf:
+        key_data = json.load(jf)
+
+readJson()
 
 def connect_db():
     return sqlite3.connect(DATABASE)
@@ -85,6 +87,9 @@ def query_db(query, args=(), one=False):
 
 
 
+
+# Static serve files
+
 @app.route('/components/<path:path>')
 def send_js(path):
     return send_from_directory('bower_components', path)
@@ -94,6 +99,14 @@ def send_css(path):
     return send_from_directory('css', path)
 
 
+
+
+
+
+
+
+
+
 @app.route('/')
 def root():
     # return render_template('instructions.html.jinja2', data=poll_data[0], id=0, roll=roll)
@@ -101,8 +114,35 @@ def root():
     params.update({
         "next_page": url_for("login")
     })
-    
     return render_template('instructions.html.jinja2',**params)
+
+@app.route('/url')
+def url_root():
+    params=dict(DEFAULT_PARAMS)
+    key = request.args.get('c')
+
+    params.update({
+        "next_page": url_for("survey_begin",c=key),
+        "participant": key_data[key]['participant'],
+        "npages": key_data[key]['npages']
+    })
+
+    return render_template('instructions.html.jinja2',**params)
+
+@app.route('/start_survey')
+def survey_begin():
+    c=request.args.get('c')
+    params=dict(DEFAULT_PARAMS)
+    params.update({
+        "c" : c,
+        "data" : lines[key_data[c]['index']],
+        "id"   : key_data[c]['index'],
+        "nmore": key_data[c]['npages'],
+        "percent":0
+        })
+    return render_template('poll.html.jinja2', **params)
+    
+
 
 @app.route('/user')
 def login():
@@ -127,8 +167,7 @@ def adduser():
             "poll_no": prev_poll_no ,
             "id"   : 0
             })
-        return render_template('poll.html.jinja2',**params)
-
+        return render_template('poll.html.jinja2',**params) 
 
 
 
@@ -137,24 +176,31 @@ def poll(id):
 
     params=dict(DEFAULT_PARAMS)
     
-    poll_no = int(request.args.get('poll_no'))
     vote = request.args.get('field')
-    roll = request.args.get('roll')
-    subreddit = request.args.get('subreddit')
+    key = request.args.get('c')
+    subreddit = lines[id]
 
-    query_db("insert into survey values(?,?,?)",[roll,subreddit,vote])
+    query_db("insert into survey values(?,?,?)",[key,subreddit,vote])
 
     
-    if id+1 >= len(poll_data[poll_no]):
+    if id+1 >= key_data[key]['npages']+key_data[key]['index']:
+        params.update({
+            "participant":key_data[key]['participant']
+            })
         return render_template('finish.html.jinja2',**params)
     else:
         params.update({
-            "poll_no" : poll_no,
-            "roll" : roll,
-            "data" : poll_data[poll_no][id+1],
-            "id"   : id+1
+            "c" : key,
+            "data" : lines[id+1],
+            "id"   : id+1,
+            "nmore": key_data[key]['npages']-(id-key_data[key]['index']+1),
+            "percent":float(id-key_data[key]['index']+1)/key_data[key]['npages']*100
             })
         return render_template('poll.html.jinja2', **params)
+
+
+
+
 
 @app.route('/results')
 def show_results():
