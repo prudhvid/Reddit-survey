@@ -209,8 +209,8 @@ def poll(id):
         
         sub = lines[id+1]
         post_links = []
-        for id in post_link_data[sub]:
-            num = base_repr(int(id), 36)
+        for num in post_link_data[sub]:
+            num = base_repr(int(num), 36)
             link = "https://reddit.com/r/"+sub+"/comments/"+num
             post_links.append(link)
 
