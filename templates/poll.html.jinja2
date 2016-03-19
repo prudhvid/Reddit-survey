@@ -16,6 +16,10 @@
 		<a href="http://reddit.com/r/{{data}}" target="_blank"> r/{{data}}</a>, what is the main source of its value, posts or comments to posts? </h3>
 
 		<br>
+		
+		{% for link in post_links %}
+			<a href={{link}}> {{link}}</a>
+		{% endfor %}
 
 		<div class="form-group">
 			<form action="/poll/{{id}}" >

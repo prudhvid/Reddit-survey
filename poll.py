@@ -5,6 +5,7 @@ import sqlite3
 from flask import g,url_for
 from contextlib import closing
 import json
+from numpy import base_repr
 
 app = Flask(__name__,static_url_path="")
 
@@ -25,9 +26,11 @@ app = Flask(__name__,static_url_path="")
 
 DATABASE = "./data.sqlite3"
 
-SUBREDDIT_FILE = "./subreddits.txt"
+SUBREDDIT_FILE = "./final_subs.txt"
 
 JSONFILE = './user-reddit.json'
+
+POSTS_LINK_FILE = './final_sub_posts.json'
 
 DEFAULT_PARAMS = {
     "survey": {
@@ -39,6 +42,10 @@ DEFAULT_PARAMS = {
 }
 
 
+post_link_data = {}
+
+with open(POSTS_LINK_FILE) as pobj:
+    post_link_data = json.load(pobj)
 
 
 
@@ -48,7 +55,7 @@ with open(SUBREDDIT_FILE) as obj:
         if len(line) == 1:
             continue
         else:
-            line = line.split(' ')[0].split('/')[-1]
+            line = line[:-1]
             lines.append(line)
 
 
@@ -133,12 +140,22 @@ def url_root():
 def survey_begin():
     c=request.args.get('c')
     params=dict(DEFAULT_PARAMS)
+    post_links = []
+    
+    sub = lines[key_data[c]['index']]
+
+    for id in post_link_data[sub]:
+        num = base_repr(int(id), 36)
+        link = "https://reddit.com/r/"+sub+"/comments/"+num
+        post_links.append(link)
+
     params.update({
         "c" : c,
         "data" : lines[key_data[c]['index']],
         "id"   : key_data[c]['index'],
         "nmore": key_data[c]['npages'],
-        "percent":0
+        "percent":0,
+        "post_links":post_links
         })
     return render_template('poll.html.jinja2', **params)
     
@@ -189,12 +206,22 @@ def poll(id):
             })
         return render_template('finish.html.jinja2',**params)
     else:
+        
+        sub = lines[id+1]
+        post_links = []
+        for id in post_link_data[sub]:
+            num = base_repr(int(id), 36)
+            link = "https://reddit.com/r/"+sub+"/comments/"+num
+            post_links.append(link)
+
+
         params.update({
             "c" : key,
             "data" : lines[id+1],
             "id"   : id+1,
             "nmore": key_data[key]['npages']-(id-key_data[key]['index']+1),
-            "percent":float(id-key_data[key]['index']+1)/key_data[key]['npages']*100
+            "percent":float(id-key_data[key]['index']+1)/key_data[key]['npages']*100,
+            "post_links": post_links
             })
         return render_template('poll.html.jinja2', **params)
 

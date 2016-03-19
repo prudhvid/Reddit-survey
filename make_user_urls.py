@@ -10,7 +10,7 @@ from __future__ import division, print_function
 import json
 import random
 
-SUBREDDIT_FILE = './subreddits.txt'
+SUBREDDIT_FILE = './final_subs.txt'
 
 def random_string():
     n = 10
