@@ -17,9 +17,11 @@
 
 		<br>
 		
-		{% for link in post_links %}
-			<a href={{link}}> {{link}}</a>
-		{% endfor %}
+		<blockquote>
+			{% for link in post_links %}
+				<a href={{link}} target="_blank"> {{link}}</a>
+			{% endfor %}
+		</blockquote>
 
 		<div class="form-group">
 			<form action="/poll/{{id}}" >
