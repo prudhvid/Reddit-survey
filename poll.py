@@ -30,7 +30,7 @@ SUBREDDIT_FILE = "./final_subs.txt"
 
 JSONFILE = './user-reddit.json'
 
-POSTS_LINK_FILE = './final_sub_posts.json'
+POSTS_LINK_FILE = './final_post_data.json'
 
 DEFAULT_PARAMS = {
     "survey": {
@@ -144,18 +144,18 @@ def survey_begin():
     
     sub = lines[key_data[c]['index']]
 
-    for id in post_link_data[sub]:
+    for id,data in post_link_data[sub].items():
         num = base_repr(int(id), 36)
         link = "https://reddit.com/r/"+sub+"/comments/"+num
-        post_links.append(link)
+        post_links.append((link, data))
 
     params.update({
         "c" : c,
         "data" : lines[key_data[c]['index']],
         "id"   : key_data[c]['index'],
         "nmore": key_data[c]['npages'],
-        "percent":0,
-        "post_links":post_links
+        "percent": 0,
+        "post_links": post_links
         })
     return render_template('poll.html.jinja2', **params)
     
@@ -195,10 +195,20 @@ def poll(id):
     
     vote = request.args.get('field')
     key = request.args.get('c')
+    allparams =  request.args.items()
+
+
+
+
     subreddit = lines[id]
 
     query_db("insert into survey values(?,?,?)",[key,subreddit,vote])
 
+    for param in allparams:
+        if param[0] == 'c' or param[0] == 'subreddit' or param[0] == 'field':
+            continue
+        else:
+            query_db("insert into link_value values(?,?,?)",[key,param[0],param[1]])
     
     if id+1 >= key_data[key]['npages']+key_data[key]['index']:
         params.update({
@@ -209,10 +219,10 @@ def poll(id):
         
         sub = lines[id+1]
         post_links = []
-        for num in post_link_data[sub]:
+        for num, data in post_link_data[sub].items():
             num = base_repr(int(num), 36)
             link = "https://reddit.com/r/"+sub+"/comments/"+num
-            post_links.append(link)
+            post_links.append((link, data))
 
 
         params.update({

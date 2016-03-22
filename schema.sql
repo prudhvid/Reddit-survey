@@ -5,3 +5,8 @@ create table user(
    user text,
    subreddit text,
    value integer);
+ create table link_value(
+ 	user text,
+ 	link_id text,
+ 	value text
+ 	);

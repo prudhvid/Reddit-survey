@@ -2,6 +2,8 @@
 
 {% block body %}
 
+
+
 <div class="container">
 	<h1 id="header" class="text-center">{{ survey.title }}</h1>
 
@@ -17,17 +19,41 @@
 
 		<br>
 		
-		<blockquote>
-			{% for link in post_links %}
-				<a href={{link}} target="_blank"> {{link}}</a>
-			{% endfor %}
-		</blockquote>
+
 
 		<div class="form-group">
 			<form action="/poll/{{id}}" >
 				<input class="form-control sr-only" type="text" name="c" value="{{c}}" />
 				<input class="form-control sr-only" type="text" name="subreddit" value="{{data}}" />
+					<dl>
+						{% for data in post_links %}
+							
+							{# <blockquote class="small"> #}
+							<dt>					
+								<a href={{data[1]['url'] if data[1]['url'] else data[0]}}
+								target="_blank"> {{data[1]['title']}}</a>
+								<span > {{data[1]['score']}} points </span>
+							</dt>
 
+							<dd>		
+								<a  href={{data[0]}} target="_blank"> {{data[1]['ncomments']}} comments </a>
+								{% if data[1]['author'] %}
+									<span > created by {{data[1]['author']}} </span>
+								{% endif %}
+							</dd>
+							{# </li> #}
+							{# </blockquote> #}
+							<label for="sel1" >The value of above post lies in:</label>
+						      <select id="sel1" name="{{data[0].split('/')[-1]}}"  value="p">
+						      	<option value="" selected disabled>Please select</option>
+						        <option vaue="p">Content of post</option>
+						        <option value="c">Comments obtained</option>
+						        <option value="n">Can't say</option>
+						      </select>
+						    <br>
+						    <br>
+						{% endfor %}
+					</dl>
 
 					{% for e in range(1,8) %}	
 						<label class="radio-inline text-center"
