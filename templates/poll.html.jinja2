@@ -14,10 +14,15 @@
 				    <!-- <small>{{percent|round|int}}% done</small> -->
 				  </div>
 				</div>	
-		<h3>For the subreddit 
-		<a href="http://reddit.com/r/{{data}}" target="_blank"> r/{{data}}</a>, what is the main source of its value, posts or comments to posts? </h3>
+			</div>
+		
+		<h3>The following posts have been selected from the subreddit
+		<a href="http://reddit.com/r/{{data}}" target="_blank"> r/{{data}}</a> </h3>
 
-		<br>
+		<p>
+			For each of the posts below, please state whether you think that users of 
+			<a href="http://reddit.com/r/{{data}}" target="_blank"> r/{{data}}</a>
+			 will find them valuble <em>independent of the comments they receive.</em> In other words, where do you think the value of these posts lie: in the post itself or in the(potential) comments that the posts receive?
 		
 
 
@@ -32,7 +37,7 @@
 							<dt>					
 								<a href={{data[1]['url'] if data[1]['url'] else data[0]}}
 								target="_blank"> {{data[1]['title']}}</a>
-								<span > {{data[1]['score']}} points </span>
+								
 							</dt>
 
 							<dd>		
@@ -43,25 +48,33 @@
 							</dd>
 							{# </li> #}
 							{# </blockquote> #}
-							<label for="sel1" >The value of above post lies in:</label>
-						      <select id="sel1" name="{{data[0].split('/')[-1]}}"  value="p">
+							Where do you think the value of above post lie: in the post itself or in the(potential) comments that the posts receive?
+						     <br>
+							{# If you wish to use selection instead of radio uncomment this #}
+
+						      {# <select id="sel1" name="{{data[0].split('/')[-1]}}"  value="p">
 						      	<option value="" selected disabled>Please select</option>
 						        <option vaue="p">Content of post</option>
 						        <option value="c">Comments obtained</option>
 						        <option value="n">Can't say</option>
-						      </select>
+						      </select> #}
+						      <em>
+						      <input type="radio" name="{{data[0].split('/')[-1]}}" value="p" > Posts
+						      <input type="radio" name="{{data[0].split('/')[-1]}}" value="n" checked="true" > Can't say
+						      <input type="radio" name="{{data[0].split('/')[-1]}}" value="c" > Comments
+						      </em>
 						    <br>
 						    <br>
 						{% endfor %}
 					</dl>
 
-					{% for e in range(1,8) %}	
+					{# {% for e in range(1,8) %}	
 						<label class="radio-inline text-center"
 							style="width:80px;">
 							<input type="radio" name="field" value="{{ e }}" checked="true"> {{e}}
 						</label>
-					{% endfor %}
-				<br>
+					{% endfor %} #}
+				{# <br>
 
 				<div class="row">
 					<div class="text-center col-sm-2" style="float:left;"> <code> Posts</code> </div>
@@ -72,7 +85,7 @@
 				<br>
 				<!-- <button type="button" class="btn btn-primary">Next</button> -->
 
-				<h4>Please visit <a href="https://reddit.com/r/{{data}}" target="_blank"> reddit.com/r/{{data}} </a> to checkout the subreddit </h4>
+				<h4>Please visit <a href="https://reddit.com/r/{{data}}" target="_blank"> reddit.com/r/{{data}} </a> to checkout the subreddit </h4> #}
 
 				
 					<!-- <h3>  <span class="badge" >{{nmore}} more to go </span> </h3> -->

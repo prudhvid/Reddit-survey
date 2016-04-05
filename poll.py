@@ -193,7 +193,7 @@ def poll(id):
 
     params=dict(DEFAULT_PARAMS)
     
-    vote = request.args.get('field')
+    vote = request.args.get('field', -1)
     key = request.args.get('c')
     allparams =  request.args.items()
 
@@ -202,7 +202,7 @@ def poll(id):
 
     subreddit = lines[id]
 
-    query_db("insert into survey values(?,?,?)",[key,subreddit,vote])
+    query_db("insert into survey values(?,?,?)",[key, subreddit, vote])
 
     for param in allparams:
         if param[0] == 'c' or param[0] == 'subreddit' or param[0] == 'field':
