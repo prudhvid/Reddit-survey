@@ -17,11 +17,11 @@
 			</div>
 		
 		<h3>The following posts have been selected from the subreddit
-		<a href="http://reddit.com/r/{{data}}" target="_blank"> r/{{data}}</a> </h3>
+		<a href="http://reddit.com/r/{{subreddit}}" target="_blank"> r/{{subreddit}}</a> </h3>
 
 		<p>
 			For each of the posts below, please state whether you think that users of 
-			<a href="http://reddit.com/r/{{data}}" target="_blank"> r/{{data}}</a>
+			<a href="http://reddit.com/r/{{subreddit}}" target="_blank"> r/{{subreddit}}</a>
 			 will find them valuble <em>independent of the comments they receive.</em> In other words, where do you think the value of these posts lie: in the post itself or in the(potential) comments that the posts receive?
 		
 
@@ -29,7 +29,7 @@
 		<div class="form-group">
 			<form action="/poll/{{id}}" >
 				<input class="form-control sr-only" type="text" name="c" value="{{c}}" />
-				<input class="form-control sr-only" type="text" name="subreddit" value="{{data}}" />
+				<input class="form-control sr-only" type="text" name="subreddit" value="{{subreddit}}" />
 					<dl>
 						{% for data in post_links %}
 							
@@ -50,14 +50,7 @@
 							{# </blockquote> #}
 							Where do you think the value of above post lie: in the post itself or in the(potential) comments that the posts receive?
 						     <br>
-							{# If you wish to use selection instead of radio uncomment this #}
-
-						      {# <select id="sel1" name="{{data[0].split('/')[-1]}}"  value="p">
-						      	<option value="" selected disabled>Please select</option>
-						        <option vaue="p">Content of post</option>
-						        <option value="c">Comments obtained</option>
-						        <option value="n">Can't say</option>
-						      </select> #}
+							
 						      <em>
 						      <input type="radio" name="{{data[0].split('/')[-1]}}" value="p" > Posts
 						      <input type="radio" name="{{data[0].split('/')[-1]}}" value="n" checked="true" > Can't say
@@ -68,29 +61,7 @@
 						{% endfor %}
 					</dl>
 
-					{# {% for e in range(1,8) %}	
-						<label class="radio-inline text-center"
-							style="width:80px;">
-							<input type="radio" name="field" value="{{ e }}" checked="true"> {{e}}
-						</label>
-					{% endfor %} #}
-				{# <br>
-
-				<div class="row">
-					<div class="text-center col-sm-2" style="float:left;"> <code> Posts</code> </div>
-					<!-- <div class="col-sm-20"> </div> -->
-					<div  style="float:right;" > <code> Comments to posts </code> </div>
-				</div>
-
-				<br>
-				<!-- <button type="button" class="btn btn-primary">Next</button> -->
-
-				<h4>Please visit <a href="https://reddit.com/r/{{data}}" target="_blank"> reddit.com/r/{{data}} </a> to checkout the subreddit </h4> #}
-
-				
-					<!-- <h3>  <span class="badge" >{{nmore}} more to go </span> </h3> -->
-					<!-- <h4><span class="label label-success">{{nmore}} more to go</span></h4> -->
-
+					
 				
 
 				<input type="submit" class="btn btn-primary pull-right"  value="Submit">

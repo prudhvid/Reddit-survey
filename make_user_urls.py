@@ -59,11 +59,10 @@ def main():
 
     # Email format
     emailfmt = """
-    Dear {user}
-
+    Dear {user},
     Please fill the following survey
-
     {url}
+
 
     Regards
     --
