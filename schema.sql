@@ -10,5 +10,6 @@
  create table link_value(
  	user text,
  	link_id text,
- 	value text
+ 	value text,
+ 	time integer
  	);

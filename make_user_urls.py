@@ -71,14 +71,14 @@ def main():
 
     # Users
     users = """
-       Rijula 
-       Prudhvi
-       Mosam
-       Suman
-       Chakradhari
-       Bishnoi
-       Asim
-       Karthik
+       Prudhvi_s1
+       Prudhvi_s2
+       Prudhvi_s3
+       Prudhvi_s4
+       Parantapa_s1
+       Parantapa_s2
+       Parantapa_s3
+       Parantapa_s4
     """.split()
 
     lines = get_lines(len(users))

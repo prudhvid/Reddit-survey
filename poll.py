@@ -2,6 +2,7 @@
 The server for Reddit poll
 """
 import json
+from datetime import datetime
 import sqlite3
 from contextlib import closing
 from flask import Flask, render_template, request, send_from_directory
@@ -161,8 +162,8 @@ def poll(id):
         if param[0] == 'c' or param[0] == 'subreddit':
             continue
         else:
-            query_db("insert into link_value values(?,?,?)",
-                     [key, param[0], param[1]])
+            query_db("insert into link_value values(?,?,?,?)",
+                     [key, param[0], param[1], datetime.utcnow()])
 
     if id + 1 >= key_data[key]['npages'] + key_data[key]['index']:
         params.update({
