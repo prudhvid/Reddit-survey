@@ -3,7 +3,7 @@
 This project is aimed to build a website to takeup a survey on Reddit subreddits cateorgoring them as `post based` or `comment based subreddits`
 with a score ranging from 1-7 (1-post based)
 
-##Dependencies
+## Dependencies
 1. python-flask
 2. sqlite3
 3. bootstrap
